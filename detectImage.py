@@ -271,7 +271,7 @@ if __name__ == "__main__":
 	image = Image.open("/Users/kunaalsharma/Desktop/test.png")
 	images, imagesMap = tesselateScreenshot(image,size)
 
-	targets = computeHistogram.read("/Users/kunaalsharma/Desktop/bot/Mining/Dark Animica/vals.txt")
+	targets = computeHistogram.read("/Users/kunaalsharma/Desktop/bot/Fletching/Bank Images/vals.txt")
 	
 	def getBestAffinity(hist):
 		currAffinities = []
@@ -283,7 +283,7 @@ if __name__ == "__main__":
 	for img in images:
 		affinities.append(getBestAffinity(computeHistogram.getVals(img)))
 
-	markWholeImage(affinities, imagesMap, size, image, N=5)
+	markWholeImage(affinities, imagesMap, size, image, N=10)
 
 
 

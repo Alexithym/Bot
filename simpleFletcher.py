@@ -16,7 +16,7 @@ bankInterfacePath = "/Users/kunaalsharma/Desktop/bot/Fletching/Interface/Bank In
 fletchInterfacePath = "/Users/kunaalsharma/Desktop/bot/Fletching/Interface/Fletch Interface.png"
 
 LOG_KEY = '5'
-PRESET_KEY = '2'
+PRESET_KEY = '1'
 
 chestLocs = []
 
@@ -83,7 +83,7 @@ def runBot():
 	bankLoc = utils.Location()
 	fletchLoc = utils.Location()
 	while True:
-		if time() - start > 8 * 3600:
+		if time() - start > 16 * 3600:
 			print("Final quit")
 			return
 		print("Opening bank")
@@ -113,7 +113,7 @@ def runBot():
 		count += 1
 		sleepDuration = -1
 		while sleepDuration < 0:
-			sleepDuration = np.random.normal(55, 4)
+			sleepDuration = np.random.normal(15, 1)
 		print(f"Sleeping {sleepDuration} seconds")
 		sleep(sleepDuration)
 

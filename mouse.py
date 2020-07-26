@@ -7,10 +7,25 @@ from PIL import Image
 from detectImage import reshape
 import pyautogui
 
-MIN_DURATION = 12 #ms
-X_MIN, X_MAX, Y_MIN, Y_MAX = 100,1300,100,700 #Dimensions of 1440x900 screen
-pyautogui.PAUSE = 0.000001 #seconds
+MIN_DURATION = 12 # ms
+X_MIN, X_MAX, Y_MIN, Y_MAX = 100, 1300, 100, 700 # Dimensions of 1440x900 screen
+pyautogui.PAUSE = 0.000001 # seconds
 
+
+def moveRect(x, y, xT, yT, teleportRandom = True):
+	if teleportRandom:
+		teleportMouseRandom()
+	xTarget = randint(x, xT)
+	yTarget = randint(y, yT)
+	controlPoints = generateControlPoints(xTarget, yTarget)
+	duration = moveDuration(xTarget, yTarget)
+	mousePositions = generateBezierCurve(controlPoints,duration)
+	ewma = randint(0, MIN_DURATION) - MIN_DURATION/2
+
+	for position in mousePositions:
+		sleep((ewma + MIN_DURATION)/1000)
+		moveTo(position)
+		ewma = 0.6 * ewma + 0.4 * (randint(0,MIN_DURATION) - MIN_DURATION/2)
 '''
 Generates points along a bezier curve. Moves along the bezier curve 
 every 30 ms with randomly generated noise between -10 and 10 ms.
@@ -48,11 +63,13 @@ def generateControlPoints(xT,yT,n=3):
 '''
 Generates the mouse positions for a mouse following the bezier curve
 parameterized by the given control points. Based upon the duration, will 
-generate a variable number of mouse positions (each move is minimum 30ms).
+generate a variable number of mouse positions (each move is minimum 12ms).
 '''
 def generateBezierCurve(controlPoints,duration):
-	sampleGranularity = 1000//(duration//MIN_DURATION)
-	tVals = [i/1000 for i in range(0,1000+sampleGranularity,sampleGranularity)]
+	tVals = []
+	for i in range(0, duration, MIN_DURATION):
+		tVals.append(i/duration)
+	tVals.append(1.0)
 	mousePositions = []
 	for t in tVals:
 		xGen, yGen = binomial(t,controlPoints)
@@ -76,7 +93,7 @@ def binomial(t,controlPoints):
 Helper function for bezier curve calculation. nCr.
 '''
 def nCr(n,r):
-	return factorial(n)//(factorial(r)*factorial(n-r))
+	return factorial(n)/(factorial(r)*factorial(n-r))
 
 '''
 Helper function for bezier curve calculation. Factorial.
@@ -117,4 +134,6 @@ def moveCenter():
 	move(randint(xMin,xMax)//2,randint(yMin,yMax)//2,100)
 
 if __name__=="__main__":
-	move(500,100,10,teleportRandom=True)
+	for _ in range(10):
+		moveRect(500,300,500,300)
+		pyautogui.click()
