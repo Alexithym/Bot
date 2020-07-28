@@ -7,6 +7,7 @@ from time import sleep
 from time import time
 
 bankInterfacePath = "/Users/kunaalsharma/Desktop/bot/Fletching/Interface/Bank Interface.png"
+clayInterfacePath = "/Users/kunaalsharma/Desktop/bot/Cooking/clayInterface.png"
 cookInterfacePath = "/Users/kunaalsharma/Desktop/bot/Cooking/cookInterface.png"
 
 portableKeyPath = "/Users/kunaalsharma/Desktop/bot/Cooking/portableKey.png"
@@ -75,6 +76,7 @@ def extendPortable(portableKeyCoordinates, extendInterfaceLocation, tries = 0):
 def runBot():
 	extendInterfaceLocation = utils.Location()
 	bankLocation = utils.Location()
+	clayInterfaceLocation = utils.Location()
 	cookInterfaceLocation = utils.Location()
 	silverhawkLocation = utils.Location()
 	portableKeyCoordinates = None
@@ -144,6 +146,7 @@ def runBot():
 
 		succ = utils.performAction(openBank, 
 		utils.makeSuccess(bankLocation, bankInterfacePath, False))
+		print("Opened bank...")
 		if not succ:
 			print("Failed to open bank")
 			return
@@ -152,6 +155,7 @@ def runBot():
 
 		succ = utils.performAction(utils.makeKeyPressAction(PRESET_KEY), 
 			utils.makeSuccess(bankLocation, bankInterfacePath, True))
+		print("Withdrew food...")
 		if not succ:
 			print("Failed to withdraw food")
 			return
@@ -159,23 +163,60 @@ def runBot():
 		sleep(1)
 
 		succ = utils.performAction(openRange, 
-			utils.makeSuccess(cookInterfaceLocation, cookInterfacePath, False))
+			utils.makeSuccess(clayInterfaceLocation, clayInterfacePath, False))
+		print("Clicked on portable...")
 		if not succ:
 			print("Failed to click on portable")
 			return
 
 		sleep(1)
 
-		succ = utils.performAction(utils.makeKeyPressAction('space'), 
-			utils.makeSuccess(cookInterfaceLocation, cookInterfacePath, True))
+		succ = utils.performAction(utils.makeKeyPressAction('1'), 
+			utils.makeSuccess(cookInterfaceLocation, cookInterfacePath, False))
+		print("Selected shaping clay...")
 		if not succ:
-			print("Failed to start crafting")
+			print("Failed to select shaping clay")
 			return
 
+		succ = utils.performAction(utils.makeKeyPressAction('space'), 
+			utils.makeSuccess(cookInterfaceLocation, cookInterfacePath, True))
+		print("Started shaping clay...")
+		if not succ:
+			print("Failed to start shaping clay")
+			return
 
 		sleepDuration = -1
 		while sleepDuration < 0:
-			sleepDuration = np.random.normal(15, 1.2)
+			sleepDuration = np.random.normal(15.5, 0.6)
+		print(f"Sleeping {sleepDuration} seconds")
+		sleep(sleepDuration)
+
+		succ = utils.performAction(openRange, 
+			utils.makeSuccess(clayInterfaceLocation, clayInterfacePath, False))
+		print("Clicked on portable...")
+		if not succ:
+			print("Failed to click on portable")
+			return
+
+		sleep(1)
+
+		succ = utils.performAction(utils.makeKeyPressAction('2'), 
+			utils.makeSuccess(cookInterfaceLocation, cookInterfacePath, False))
+		print("Selected firing clay...")
+		if not succ:
+			print("Failed to select shaping clay")
+			return
+
+		succ = utils.performAction(utils.makeKeyPressAction('space'), 
+			utils.makeSuccess(cookInterfaceLocation, cookInterfacePath, True))
+		print("Started firing clay...")
+		if not succ:
+			print("Failed to start shaping clay")
+			return
+
+		sleepDuration = -1
+		while sleepDuration < 0:
+			sleepDuration = np.random.normal(50, 1.2)
 		print(f"Sleeping {sleepDuration} seconds")
 		sleep(sleepDuration)
 
