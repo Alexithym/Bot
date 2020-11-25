@@ -11,8 +11,8 @@ clayInterfacePath = "Cooking/clayInterface.png"
 cookInterfacePath = "Cooking/cookInterface.png"
 
 portableKeyPath = "Cooking/portableKey.png"
-portableClickInterfacePath = "portableClickInterface.png"
-extendInterfacePath = "extendInterface.png"
+portableClickInterfacePath = "Cooking/portableClickInterface.png"
+extendInterfacePath = "Cooking/extendInterface.png"
 
 PRESET_KEY = '1'
 PORTABLE_PRESET = '2'
