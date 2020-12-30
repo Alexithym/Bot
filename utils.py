@@ -29,6 +29,7 @@ def getBoundingRectangle(n = 2, clean = True):
 	def on_click(x, y, button, pressed, val = points):
 		if not pressed:
 			return
+		print(f"{x}, {y}")
 		points.append((x,y))
 		return False
 
@@ -56,10 +57,12 @@ def checkXP(iconPath):
 '''
 Spam clicks on a key
 '''
-def spamPress(key):
-	numPresses = np.random.normal(3, 1)
+def spamPress(key, mean=3, var=1, times=None):
+	numPresses = np.random.normal(mean, var)
 	if numPresses < 2:
 		numPresses = 2
+	if times:
+		numPresses = times
 	elif numPresses > 4:
 		numPresses = 4
 
@@ -86,6 +89,21 @@ def checkLocation(loc, target):
 def convert(region):
 	x1,y1,x2,y2 = region
 	return (x1, y1, x2 + x1, y2 + y1)
+
+def convert_pyautogui_to_mouse(region):
+	(x, y, xT, yT) = convert(region)
+	return (x//2, y//2, xT//2, yT//2)
+
+def avoidTimeout():
+	directions = ['left', 'right', 'up', 'down']
+	direction = directions[int(np.random.normal(100, 20) % 4)]
+	spamPress(direction)
+
+def getSleep(mean, variance):
+	sleepDuration = -1;
+	while sleepDuration < 0:
+		sleepDuration = np.random.normal(mean, variance)
+	return sleepDuration
 
 def performAction(action, success):
 	action()

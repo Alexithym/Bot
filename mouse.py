@@ -12,7 +12,7 @@ X_MIN, X_MAX, Y_MIN, Y_MAX = 100, 1300, 100, 700 # Dimensions of 1440x900 screen
 pyautogui.PAUSE = 0.000001 # seconds
 
 
-def moveRect(x, y, xT, yT, teleportRandom = True):
+def moveRect(x, y, xT, yT, teleportRandom = False):
 	if teleportRandom:
 		teleportMouseRandom()
 	xTarget = randint(x, xT)
